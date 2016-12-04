@@ -1,15 +1,57 @@
+var _rr1000$elm_night_shyamalan$Main$viewValidation = function (model) {
+	var _p0 = _elm_lang$core$Native_Utils.eq(model.password, model.passwordConfirm) ? {ctor: '_Tuple2', _0: 'green', _1: 'OK'} : {ctor: '_Tuple2', _0: 'red', _1: 'Passwords do not match!'};
+	var color = _p0._0;
+	var message = _p0._1;
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$style(
+				{
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'color', _1: color},
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(message),
+			_1: {ctor: '[]'}
+		});
+};
 var _rr1000$elm_night_shyamalan$Main$update = F2(
 	function (msg, model) {
-		var _p0 = msg;
-		if (_p0.ctor === 'Increment') {
-			return model + 1;
-		} else {
-			return model - 1;
+		var _p1 = msg;
+		switch (_p1.ctor) {
+			case 'Name':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{name: _p1._0});
+			case 'Password':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{password: _p1._0});
+			default:
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{passwordConfirm: _p1._0});
 		}
 	});
-var _rr1000$elm_night_shyamalan$Main$model = 0;
-var _rr1000$elm_night_shyamalan$Main$Decrement = {ctor: 'Decrement'};
-var _rr1000$elm_night_shyamalan$Main$Increment = {ctor: 'Increment'};
+var _rr1000$elm_night_shyamalan$Main$Model = F3(
+	function (a, b, c) {
+		return {name: a, password: b, passwordConfirm: c};
+	});
+var _rr1000$elm_night_shyamalan$Main$model = A3(_rr1000$elm_night_shyamalan$Main$Model, '', '', '');
+var _rr1000$elm_night_shyamalan$Main$PasswordConfirm = function (a) {
+	return {ctor: 'PasswordConfirm', _0: a};
+};
+var _rr1000$elm_night_shyamalan$Main$Password = function (a) {
+	return {ctor: 'Password', _0: a};
+};
+var _rr1000$elm_night_shyamalan$Main$Name = function (a) {
+	return {ctor: 'Name', _0: a};
+};
 var _rr1000$elm_night_shyamalan$Main$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -17,43 +59,62 @@ var _rr1000$elm_night_shyamalan$Main$view = function (model) {
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$button,
+				_elm_lang$html$Html$input,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Events$onClick(_rr1000$elm_night_shyamalan$Main$Decrement),
-					_1: {ctor: '[]'}
+					_0: _elm_lang$html$Html_Attributes$type_('text'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$placeholder('Name'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onInput(_rr1000$elm_night_shyamalan$Main$Name),
+							_1: {ctor: '[]'}
+						}
+					}
 				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('-'),
-					_1: {ctor: '[]'}
-				}),
+				{ctor: '[]'}),
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$div,
-					{ctor: '[]'},
+					_elm_lang$html$Html$input,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							_elm_lang$core$Basics$toString(model)),
-						_1: {ctor: '[]'}
-					}),
+						_0: _elm_lang$html$Html_Attributes$type_('text'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$placeholder('Password'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onInput(_rr1000$elm_night_shyamalan$Main$Password),
+								_1: {ctor: '[]'}
+							}
+						}
+					},
+					{ctor: '[]'}),
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$button,
+						_elm_lang$html$Html$input,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(_rr1000$elm_night_shyamalan$Main$Increment),
-							_1: {ctor: '[]'}
+							_0: _elm_lang$html$Html_Attributes$type_('text'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$placeholder('Please re-enter your password'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onInput(_rr1000$elm_night_shyamalan$Main$PasswordConfirm),
+									_1: {ctor: '[]'}
+								}
+							}
 						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('+'),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: _rr1000$elm_night_shyamalan$Main$viewValidation(model),
+						_1: {ctor: '[]'}
+					}
 				}
 			}
 		});
