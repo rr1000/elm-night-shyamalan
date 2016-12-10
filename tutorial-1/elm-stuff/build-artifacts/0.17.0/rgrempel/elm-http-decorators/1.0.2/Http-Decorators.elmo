@@ -1,0 +1,46 @@
+var _rgrempel$elm_http_decorators$Http_Decorators$promoteError = function (task) {
+	var promote = function (error) {
+		var _p0 = error;
+		if (_p0.ctor === 'RawTimeout') {
+			return _evancz$elm_http$Http$Timeout;
+		} else {
+			return _evancz$elm_http$Http$NetworkError;
+		}
+	};
+	return A2(_elm_lang$core$Task$mapError, promote, task);
+};
+var _rgrempel$elm_http_decorators$Http_Decorators$interpretStatus = function (task) {
+	var handleResponse = function (response) {
+		return ((_elm_lang$core$Native_Utils.cmp(response.status, 200) > -1) && (_elm_lang$core$Native_Utils.cmp(response.status, 300) < 0)) ? _elm_lang$core$Task$succeed(response) : _elm_lang$core$Task$fail(
+			A2(_evancz$elm_http$Http$BadResponse, response.status, response.statusText));
+	};
+	return A2(
+		_elm_lang$core$Task$andThen,
+		_rgrempel$elm_http_decorators$Http_Decorators$promoteError(task),
+		handleResponse);
+};
+var _rgrempel$elm_http_decorators$Http_Decorators$addCacheBuster = F3(
+	function (func, settings, request) {
+		var urlWithQueryIndicator = A2(_elm_lang$core$String$contains, '?', request.url) ? request.url : A2(_elm_lang$core$Basics_ops['++'], request.url, '?');
+		var urlWithParamSeparator = A2(_elm_lang$core$String$endsWith, '?', urlWithQueryIndicator) ? urlWithQueryIndicator : A2(_elm_lang$core$Basics_ops['++'], urlWithQueryIndicator, '&');
+		var urlWithTime = function (time) {
+			return A2(
+				_elm_lang$core$Basics_ops['++'],
+				urlWithParamSeparator,
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'cacheBuster=',
+					_elm_lang$core$Basics$toString(time)));
+		};
+		var sendWithTime = function (time) {
+			return A2(
+				func,
+				settings,
+				_elm_lang$core$Native_Utils.update(
+					request,
+					{
+						url: urlWithTime(time)
+					}));
+		};
+		return A2(_elm_lang$core$Task$andThen, _elm_lang$core$Time$now, sendWithTime);
+	});

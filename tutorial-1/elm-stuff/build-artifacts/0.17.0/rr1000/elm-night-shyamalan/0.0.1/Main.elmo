@@ -1,0 +1,104 @@
+var _rr1000$elm_night_shyamalan$Main$api = 'http://localhost:3001';
+var _rr1000$elm_night_shyamalan$Main$randomQuoteUrl = A2(_elm_lang$core$Basics_ops['++'], _rr1000$elm_night_shyamalan$Main$api, 'api/random-quote');
+var _rr1000$elm_night_shyamalan$Main$fetchRandomQuote = _evancz$elm_http$Http$getString(_rr1000$elm_night_shyamalan$Main$randomQuoteUrl);
+var _rr1000$elm_night_shyamalan$Main$Model = function (a) {
+	return {quote: a};
+};
+var _rr1000$elm_night_shyamalan$Main$HttpError = function (a) {
+	return {ctor: 'HttpError', _0: a};
+};
+var _rr1000$elm_night_shyamalan$Main$FetchQuoteSuccess = function (a) {
+	return {ctor: 'FetchQuoteSuccess', _0: a};
+};
+var _rr1000$elm_night_shyamalan$Main$fetchRandomQuoteCmd = A3(_elm_lang$core$Task$perform, _rr1000$elm_night_shyamalan$Main$HttpError, _rr1000$elm_night_shyamalan$Main$FetchQuoteSuccess, _rr1000$elm_night_shyamalan$Main$fetchRandomQuote);
+var _rr1000$elm_night_shyamalan$Main$init = {
+	ctor: '_Tuple2',
+	_0: _rr1000$elm_night_shyamalan$Main$Model(''),
+	_1: _rr1000$elm_night_shyamalan$Main$fetchRandomQuoteCmd
+};
+var _rr1000$elm_night_shyamalan$Main$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'GetQuote':
+				return {ctor: '_Tuple2', _0: model, _1: _rr1000$elm_night_shyamalan$Main$fetchRandomQuoteCmd};
+			case 'FetchQuoteSuccess':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{quote: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+		}
+	});
+var _rr1000$elm_night_shyamalan$Main$GetQuote = {ctor: 'GetQuote'};
+var _rr1000$elm_night_shyamalan$Main$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Attributes$class('container')
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$h2,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('text-center')
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Chuck Norris Quotes')
+					])),
+				A2(
+				_elm_lang$html$Html$p,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('text-center')
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_elm_lang$html$Html$button,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$class('btn btn-success'),
+								_elm_lang$html$Html_Events$onClick(_rr1000$elm_night_shyamalan$Main$GetQuote)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text('Get a quote buddy')
+							]))
+					])),
+				A2(
+				_elm_lang$html$Html$blockquote,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_elm_lang$html$Html$p,
+						_elm_lang$core$Native_List.fromArray(
+							[]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text(model.quote)
+							]))
+					]))
+			]));
+};
+var _rr1000$elm_night_shyamalan$Main$main = {
+	main: _elm_lang$html$Html_App$program(
+		{
+			init: _rr1000$elm_night_shyamalan$Main$init,
+			update: _rr1000$elm_night_shyamalan$Main$update,
+			subscriptions: function (_p1) {
+				return _elm_lang$core$Platform_Sub$none;
+			},
+			view: _rr1000$elm_night_shyamalan$Main$view
+		})
+};

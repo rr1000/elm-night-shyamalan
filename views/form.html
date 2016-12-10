@@ -8227,8 +8227,10 @@ var _elm_lang$html$Html_Events$Options = F2(
 	function (a, b) {
 		return {stopPropagation: a, preventDefault: b};
 	});
-var _rr1000$elm_night_shyamalan$Main$viewValidation = function (model) {
-	var _p0 = _elm_lang$core$Native_Utils.eq(model.password, model.passwordConfirm) ? {ctor: '_Tuple2', _0: 'green', _1: 'OK'} : {ctor: '_Tuple2', _0: 'red', _1: 'Passwords do not match!'};
+var _rr1000$elm_night_shyamalan$Main$formValidation = function (model) {
+	var bad = '#D93939';
+	var good = '#1055FF';
+	var _p0 = _elm_lang$core$Native_Utils.eq(model.password, model.passwordConfirm) ? {ctor: '_Tuple2', _0: good, _1: 'OK'} : {ctor: '_Tuple2', _0: bad, _1: 'Passwords do not match!'};
 	var color = _p0._0;
 	var message = _p0._1;
 	return A2(
@@ -8261,17 +8263,24 @@ var _rr1000$elm_night_shyamalan$Main$update = F2(
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{password: _p1._0});
-			default:
+			case 'PasswordConfirm':
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{passwordConfirm: _p1._0});
+			default:
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{age: _p1._0});
 		}
 	});
-var _rr1000$elm_night_shyamalan$Main$Model = F3(
-	function (a, b, c) {
-		return {name: a, password: b, passwordConfirm: c};
+var _rr1000$elm_night_shyamalan$Main$Model = F4(
+	function (a, b, c, d) {
+		return {name: a, password: b, passwordConfirm: c, age: d};
 	});
-var _rr1000$elm_night_shyamalan$Main$model = A3(_rr1000$elm_night_shyamalan$Main$Model, '', '', '');
+var _rr1000$elm_night_shyamalan$Main$model = A4(_rr1000$elm_night_shyamalan$Main$Model, '', '', '', 0);
+var _rr1000$elm_night_shyamalan$Main$Age = function (a) {
+	return {ctor: 'Age', _0: a};
+};
 var _rr1000$elm_night_shyamalan$Main$PasswordConfirm = function (a) {
 	return {ctor: 'PasswordConfirm', _0: a};
 };
@@ -8341,8 +8350,23 @@ var _rr1000$elm_night_shyamalan$Main$view = function (model) {
 						{ctor: '[]'}),
 					_1: {
 						ctor: '::',
-						_0: _rr1000$elm_night_shyamalan$Main$viewValidation(model),
-						_1: {ctor: '[]'}
+						_0: A2(
+							_elm_lang$html$Html$input,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$type_('number'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$placeholder('enter your age'),
+									_1: {ctor: '[]'}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: _rr1000$elm_night_shyamalan$Main$formValidation(model),
+							_1: {ctor: '[]'}
+						}
 					}
 				}
 			}

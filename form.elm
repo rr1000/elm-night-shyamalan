@@ -11,12 +11,13 @@ type alias Model =
     {
         name : String,
         password : String,
-        passwordConfirm : String
+        passwordConfirm : String,
+        age : Int
     }
 
 model : Model
 model =
-    Model "" "" ""
+    Model "" "" "" 0
 
 -- UPDATE
 
@@ -24,6 +25,7 @@ type Msg
     = Name String
     | Password String
     | PasswordConfirm String
+    | Age Int
 
 update : Msg -> Model -> Model
 update msg model =
@@ -37,6 +39,9 @@ update msg model =
         PasswordConfirm passwordConfirm ->
             { model | passwordConfirm = passwordConfirm }
 
+        Age age ->
+            { model | age = age }
+
 -- VIEW
 view : Model -> Html Msg
 view model =
@@ -44,16 +49,19 @@ view model =
         [ input [ type_ "text", placeholder "Name", onInput Name ] []
         , input [ type_ "text", placeholder "Password", onInput Password ] []
         , input [ type_ "text", placeholder "Please re-enter your password", onInput PasswordConfirm] []
-        , viewValidation model
+        , input [ type_ "number", placeholder "enter your age"] []
+        , formValidation model
         ]
 
-viewValidation : Model -> Html msg
-viewValidation model =
+formValidation : Model -> Html msg
+formValidation model =
     let
+        good = "#1055FF"
+        bad = "#D93939"
         (color, message) =
             if model.password == model.passwordConfirm then
-                ("green", "OK")
+                (good, "OK")
             else
-                ("red", "Passwords do not match!")
+                (bad, "Passwords do not match!")
     in
         div [ style [("color", color)] ] [ text message ]
